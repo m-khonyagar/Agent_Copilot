@@ -7,7 +7,7 @@ def _utcnow() -> datetime:
     return datetime.now(timezone.utc)
 
 from sqlalchemy import (
-    Column, String, DateTime, Text, Integer, ForeignKey, JSON, BigInteger, event
+    Column, String, DateTime, Text, Integer, ForeignKey, JSON, BigInteger
 )
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase, relationship

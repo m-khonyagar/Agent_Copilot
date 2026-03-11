@@ -3,7 +3,6 @@ import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-import aiofiles
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
