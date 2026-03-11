@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_contacts"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="مخاطبین" />
+    <item
+        android:id="@+id/nav_messages"
+        android:icon="@android:drawable/ic_dialog_email"
+        android:title="پیام‌ها" />
+    <item
+        android:id="@+id/nav_inbox"
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:title="صندوق دریافت" />
+    <item
+        android:id="@+id/nav_history"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="تاریخچه" />
+    <item
+        android:id="@+id/nav_notifications"
+        android:icon="@android:drawable/ic_dialog_alert"
+        android:title="اعلان‌ها" />
+</menu>
