@@ -6,7 +6,7 @@ temporalio==1.8.0
 langfuse==2.44.0
 sqlalchemy==2.0.36
 aiosqlite==0.20.0
-python-multipart==0.0.17
+python-multipart==0.0.22
 websockets==14.1
 pydantic==2.9.2
 python-dotenv==1.0.0
