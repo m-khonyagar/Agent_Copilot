@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import os
 from datetime import timedelta
 from typing import Any, Callable, Dict, Optional
 
@@ -105,7 +106,8 @@ class WorkflowRunner:
         if self._client is not None:
             return self._client
         try:
-            self._client = await Client.connect("localhost:7233")
+            temporal_host = os.getenv("TEMPORAL_HOST", "localhost")
+            self._client = await Client.connect(f"{temporal_host}:7233")
             return self._client
         except Exception as exc:
             logger.warning("Cannot connect to Temporal server: %s", exc)
