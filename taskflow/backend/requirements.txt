@@ -1,0 +1,13 @@
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+pyautogen==0.4.0
+open-interpreter==0.4.0
+temporalio==1.8.0
+langfuse==2.44.0
+sqlalchemy==2.0.36
+aiosqlite==0.20.0
+python-multipart==0.0.22
+websockets==14.1
+pydantic==2.9.2
+python-dotenv==1.0.0
+aiofiles==24.1.0
