@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amline Design System — Light Mode Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --amline-primary: #179a9c;
+      --amline-primary-hover: #126d6f;
+      --amline-primary-muted: rgba(23,154,156,0.14);
+      --amline-brand-terracotta: #a44225;
+      --amline-brand-terracotta-muted: rgba(164,66,37,0.12);
+      --amline-bg: #f2f8f6;
+      --amline-fg: #1e1e1f;
+      --amline-fg-muted: #565564;
+      --amline-fg-subtle: #9e9ea7;
+      --amline-surface: #ffffff;
+      --amline-surface-muted: #eafaf5;
+      --amline-border: #e7e7e9;
+      --amline-border-strong: #d7d9de;
+      --amline-shadow-sm: 0 1px 2px rgba(30,30,31,0.06);
+      --amline-shadow-md: 0 4px 16px rgba(30,30,31,0.08);
+      --amline-success: #0d9488;
+      --amline-warning: #f59e0b;
+      --amline-error: #dc2626;
+      --amline-info: #0284c7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Vazirmatn', 'Tahoma', system-ui, sans-serif;
+      background: var(--amline-bg);
+      color: var(--amline-fg);
+      font-size: 16px;
+      line-height: 1.65;
+      letter-spacing: 0.01em;
+      padding: 32px;
+      direction: rtl;
+      text-align: right;
+    }
+
+    h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; color: var(--amline-fg); }
+    h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; color: var(--amline-fg); }
+    p.subtitle { font-size: 14px; color: var(--amline-fg-muted); margin-bottom: 40px; }
+
+    .section { margin-bottom: 48px; }
+    .section-title { font-size: 14px; font-weight: 500; color: var(--amline-fg-subtle); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid var(--amline-border); padding-bottom: 8px; }
+
+    /* Color Swatches */
+    .swatch-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+    .swatch { width: 100px; }
+    .swatch-color { width: 100px; height: 64px; border-radius: 12px; border: 1px solid var(--amline-border); margin-bottom: 6px; }
+    .swatch-name { font-size: 11px; font-weight: 600; color: var(--amline-fg); }
+    .swatch-value { font-size: 10px; color: var(--amline-fg-subtle); }
+
+    /* Type Scale */
+    .type-display { font-size: 28px; font-weight: 700; color: var(--amline-fg); line-height: 1.3; margin-bottom: 8px; }
+    .type-title   { font-size: 18px; font-weight: 600; color: var(--amline-fg); line-height: 1.5; margin-bottom: 8px; }
+    .type-body    { font-size: 14px; font-weight: 400; color: var(--amline-fg-muted); line-height: 1.65; margin-bottom: 8px; }
+    .type-caption { font-size: 12px; font-weight: 400; color: var(--amline-fg-subtle); margin-bottom: 8px; }
+    .type-label   { font-size: 14px; font-weight: 500; color: var(--amline-fg); margin-bottom: 8px; }
+    .type-badge-text { font-size: 12px; font-weight: 600; }
+    .type-meta { font-size: 10px; color: var(--amline-fg-subtle); margin-bottom: 20px; }
+
+    /* Buttons */
+    .btn-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 44px; padding: 0 16px; font-size: 14px; font-weight: 500;
+      border-radius: 12px; cursor: pointer; border: none;
+      font-family: 'Vazirmatn', sans-serif; transition: background 0.2s ease;
+    }
+    .btn-primary { background: var(--amline-primary); color: #fff; }
+    .btn-primary:hover { background: var(--amline-primary-hover); }
+    .btn-secondary { background: #64748b; color: #fff; }
+    .btn-secondary:hover { background: #475569; }
+    .btn-outline { background: var(--amline-surface); color: var(--amline-fg); border: 1px solid var(--amline-border); }
+    .btn-outline:hover { background: var(--amline-surface-muted); }
+    .btn-ghost { background: transparent; color: var(--amline-fg); }
+    .btn-ghost:hover { background: var(--amline-surface-muted); }
+    .btn-terracotta { background: var(--amline-brand-terracotta); color: #fff; }
+
+    /* Cards */
+    .card-row { display: flex; flex-wrap: wrap; gap: 20px; }
+    .card {
+      background: var(--amline-surface); border: 1px solid var(--amline-border);
+      border-radius: 16px; box-shadow: var(--amline-shadow-sm);
+      min-width: 240px; flex: 1;
+    }
+    .card-header { padding: 20px; border-bottom: 1px solid var(--amline-border); }
+    .card-title  { font-size: 18px; font-weight: 600; color: var(--amline-fg); }
+    .card-desc   { font-size: 14px; color: var(--amline-fg-muted); margin-top: 4px; }
+    .card-content { padding: 20px; }
+    .card-body-text { font-size: 14px; color: var(--amline-fg-muted); line-height: 1.65; }
+
+    /* Badges */
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .badge {
+      display: inline-flex; align-items: center; border-radius: 9999px;
+      padding: 2px 10px; font-size: 12px; font-weight: 600; color: white;
+    }
+    .badge-success { background: var(--amline-success); }
+    .badge-warning { background: var(--amline-warning); }
+    .badge-error   { background: var(--amline-error); }
+    .badge-info    { background: var(--amline-info); }
+    .badge-primary { background: var(--amline-primary); }
+    .badge-terracotta { background: var(--amline-brand-terracotta); }
+
+    /* Input */
+    .input {
+      display: flex; min-height: 44px; width: 320px; border-radius: 12px;
+      border: 1px solid var(--amline-border); background: var(--amline-surface);
+      padding: 8px 14px; font-size: 14px; font-family: 'Vazirmatn', sans-serif;
+      color: var(--amline-fg); outline: none; transition: box-shadow 0.2s;
+      direction: rtl;
+    }
+    .input:focus { box-shadow: 0 0 0 2px var(--amline-primary); }
+    .input::placeholder { color: var(--amline-fg-subtle); }
+
+    /* Sidebar example */
+    .sidebar-demo {
+      background: var(--amline-surface); border: 1px solid var(--amline-border);
+      border-radius: 16px; width: 260px; overflow: hidden;
+      box-shadow: var(--amline-shadow-md);
+    }
+    .sidebar-header-demo {
+      height: 56px; display: flex; align-items: center; padding: 0 16px;
+      border-bottom: 1px solid var(--amline-border);
+      font-weight: 600; font-size: 16px; color: var(--amline-primary);
+    }
+    .sidebar-item-demo {
+      display: flex; align-items: center; gap: 10px; padding: 10px 24px;
+      font-size: 14px; color: var(--amline-fg-muted); cursor: pointer;
+    }
+    .sidebar-item-demo:hover { background: var(--amline-surface-muted); color: var(--amline-fg); }
+    .sidebar-item-active {
+      border-right: 4px solid var(--amline-primary);
+      background: var(--amline-primary-muted);
+      color: var(--amline-primary); font-weight: 500;
+    }
+
+    /* Table */
+    .table-container {
+      width: 100%; overflow: auto; border-radius: 16px;
+      border: 1px solid var(--amline-border); background: var(--amline-surface);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th {
+      height: 48px; background: var(--amline-surface-muted); padding: 0 16px;
+      text-align: right; font-weight: 500; color: var(--amline-fg-muted);
+      white-space: nowrap;
+    }
+    td {
+      padding: 14px 16px; border-top: 1px solid var(--amline-border);
+      color: var(--amline-fg); text-align: right;
+    }
+    tr:hover td { background: #f1f5f9; }
+
+    /* Shadows */
+    .shadow-row { display: flex; flex-wrap: wrap; gap: 20px; }
+    .shadow-card {
+      background: var(--amline-surface); border-radius: 16px; padding: 20px;
+      min-width: 160px; text-align: center; font-size: 13px; color: var(--amline-fg-muted);
+    }
+
+    /* Radius */
+    .radius-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; }
+    .radius-box {
+      background: var(--amline-primary-muted); border: 2px solid var(--amline-primary);
+      width: 80px; height: 48px; display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: var(--amline-primary); font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🏠 اَملاین — سیستم طراحی (حالت روشن)</h1>
+  <p class="subtitle">Amline Design System — Light Mode · PropTech Platform for Iranian Real Estate Contracts</p>
+
+  <!-- COLOR PALETTE -->
+  <div class="section">
+    <div class="section-title">پالت رنگ — Color Palette</div>
+    <div class="swatch-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#179a9c;"></div>
+        <div class="swatch-name">Amline Teal</div>
+        <div class="swatch-value">#179A9C</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#126d6f;"></div>
+        <div class="swatch-name">Teal Hover</div>
+        <div class="swatch-value">#126D6F</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#5ec4c6;"></div>
+        <div class="swatch-name">Teal Light</div>
+        <div class="swatch-value">#5EC4C6</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:rgba(23,154,156,0.14); border:1px solid #e7e7e9;"></div>
+        <div class="swatch-name">Teal Muted</div>
+        <div class="swatch-value">rgba(23,154,156,0.14)</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#a44225;"></div>
+        <div class="swatch-name">Terracotta</div>
+        <div class="swatch-value">#A44225</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#f2f8f6; border:1px solid #e7e7e9;"></div>
+        <div class="swatch-name">Canvas Mint</div>
+        <div class="swatch-value">#F2F8F6</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#ffffff; border:1px solid #e7e7e9;"></div>
+        <div class="swatch-name">Surface</div>
+        <div class="swatch-value">#FFFFFF</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#eafaf5; border:1px solid #e7e7e9;"></div>
+        <div class="swatch-name">Surface Muted</div>
+        <div class="swatch-value">#EAFAF5</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#1e1e1f;"></div>
+        <div class="swatch-name">Foreground</div>
+        <div class="swatch-value">#1E1E1F</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#565564;"></div>
+        <div class="swatch-name">FG Muted</div>
+        <div class="swatch-value">#565564</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#9e9ea7;"></div>
+        <div class="swatch-name">FG Subtle</div>
+        <div class="swatch-value">#9E9EA7</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#e7e7e9; border:1px solid #d7d9de;"></div>
+        <div class="swatch-name">Border</div>
+        <div class="swatch-value">#E7E7E9</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#0d9488;"></div>
+        <div class="swatch-name">Success</div>
+        <div class="swatch-value">#0D9488</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#f59e0b;"></div>
+        <div class="swatch-name">Warning</div>
+        <div class="swatch-value">#F59E0B</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#dc2626;"></div>
+        <div class="swatch-name">Error</div>
+        <div class="swatch-value">#DC2626</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#0284c7;"></div>
+        <div class="swatch-name">Info</div>
+        <div class="swatch-value">#0284C7</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TYPE SCALE -->
+  <div class="section">
+    <div class="section-title">تایپوگرافی — Typography (Vazirmatn)</div>
+    <div class="type-display">سامانه هوشمند قرارداد ملکی</div>
+    <div class="type-meta">Display — 28px / 700 / line-height 1.3</div>
+    <div class="type-title">مدیریت قراردادها و کاربران</div>
+    <div class="type-meta">Title — 18px / 600 / line-height 1.5</div>
+    <div class="type-body">پلتفرم اَملاین به شما کمک می‌کند تا قراردادهای ملکی را به صورت هوشمند و کاملاً دیجیتال مدیریت کنید.</div>
+    <div class="type-meta">Body — 14px / 400 / line-height 1.65 / color #565564</div>
+    <div class="type-label">وضعیت قرارداد — Contract Status</div>
+    <div class="type-meta">Label — 14px / 500</div>
+    <div class="type-caption">آخرین بروزرسانی: ۱۴۰۳/۰۲/۱۵ — شناسه قرارداد: #۱۲۳۴۵</div>
+    <div class="type-meta">Caption — 12px / 400 / color #9E9EA7</div>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="section">
+    <div class="section-title">دکمه‌ها — Buttons</div>
+    <div class="btn-row">
+      <button class="btn btn-primary">ثبت قرارداد</button>
+      <button class="btn btn-secondary">بازگشت</button>
+      <button class="btn btn-outline">لغو</button>
+      <button class="btn btn-ghost">بیشتر</button>
+      <button class="btn btn-terracotta">اطلاعات برند</button>
+      <button class="btn btn-primary" disabled style="opacity:0.5;cursor:not-allowed;">غیرفعال</button>
+    </div>
+  </div>
+
+  <!-- BADGES -->
+  <div class="section">
+    <div class="section-title">نشان‌ها — Badges</div>
+    <div class="badge-row">
+      <span class="badge badge-success">تأیید شده</span>
+      <span class="badge badge-warning">در انتظار</span>
+      <span class="badge badge-error">رد شده</span>
+      <span class="badge badge-info">در بررسی</span>
+      <span class="badge badge-primary">فعال</span>
+      <span class="badge badge-terracotta">برند اَملاین</span>
+    </div>
+  </div>
+
+  <!-- INPUT -->
+  <div class="section">
+    <div class="section-title">فیلد ورودی — Input</div>
+    <input class="input" type="text" placeholder="جستجوی قرارداد یا کاربر..." />
+  </div>
+
+  <!-- CARDS -->
+  <div class="section">
+    <div class="section-title">کارت‌ها — Cards</div>
+    <div class="card-row">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">خلاصه قراردادها</div>
+          <div class="card-desc">آمار کلی ماه جاری</div>
+        </div>
+        <div class="card-content">
+          <div style="font-size:32px;font-weight:700;color:var(--amline-primary);">۱۴۲</div>
+          <div class="card-body-text">قرارداد فعال در سیستم</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">مجموع تراکنش‌ها</div>
+          <div class="card-desc">کیف پول و پرداخت‌ها</div>
+        </div>
+        <div class="card-content">
+          <div style="font-size:32px;font-weight:700;color:var(--amline-success);">۸۶،۴۰۰،۰۰۰ تومان</div>
+          <div class="card-body-text">جمع تراکنش‌های تأیید شده</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">لیدهای فعال</div>
+          <div class="card-desc">مدیریت CRM</div>
+        </div>
+        <div class="card-content">
+          <div style="font-size:32px;font-weight:700;color:var(--amline-warning);">۳۸</div>
+          <div class="card-body-text">لید در مرحله مذاکره</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="section">
+    <div class="section-title">نوار کناری — Sidebar</div>
+    <div class="sidebar-demo">
+      <div class="sidebar-header-demo">🏠 اَملاین</div>
+      <div class="sidebar-item-demo sidebar-item-active">📊 داشبورد</div>
+      <div class="sidebar-item-demo">📄 قراردادها</div>
+      <div class="sidebar-item-demo">👥 کاربران</div>
+      <div class="sidebar-item-demo">💼 CRM لیدها</div>
+      <div class="sidebar-item-demo">👛 کیف پول</div>
+      <div class="sidebar-item-demo">⚙️ تنظیمات</div>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="section">
+    <div class="section-title">جدول داده — Table</div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>نام طرفین</th>
+            <th>تاریخ ثبت</th>
+            <th>مبلغ (تومان)</th>
+            <th>وضعیت</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>علی محمدی — سارا کریمی</td>
+            <td>۱۴۰۳/۰۲/۱۰</td>
+            <td>۴۵۰،۰۰۰،۰۰۰</td>
+            <td><span class="badge badge-success">تأیید شده</span></td>
+          </tr>
+          <tr>
+            <td>رضا احمدی — مریم حسینی</td>
+            <td>۱۴۰۳/۰۲/۱۲</td>
+            <td>۲۸۰،۰۰۰،۰۰۰</td>
+            <td><span class="badge badge-warning">در انتظار</span></td>
+          </tr>
+          <tr>
+            <td>نگار رضایی — کامران صادقی</td>
+            <td>۱۴۰۳/۰۲/۱۴</td>
+            <td>۶۱۰،۰۰۰،۰۰۰</td>
+            <td><span class="badge badge-info">در بررسی</span></td>
+          </tr>
+          <tr>
+            <td>حسن موسوی — فاطمه اکبری</td>
+            <td>۱۴۰۳/۰۲/۱۵</td>
+            <td>۳۱۵،۰۰۰،۰۰۰</td>
+            <td><span class="badge badge-error">رد شده</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SHADOWS -->
+  <div class="section">
+    <div class="section-title">سایه‌ها — Elevation</div>
+    <div class="shadow-row">
+      <div class="shadow-card" style="border:1px solid var(--amline-border);">بدون سایه<br/>(Flat)</div>
+      <div class="shadow-card" style="box-shadow:0 1px 2px rgba(30,30,31,0.06);">سایه کوچک<br/>shadow-sm</div>
+      <div class="shadow-card" style="box-shadow:0 4px 16px rgba(30,30,31,0.08);">سایه متوسط<br/>shadow-md</div>
+      <div class="shadow-card" style="box-shadow:0 12px 40px rgba(30,30,31,0.10);">سایه بزرگ<br/>shadow-lg</div>
+    </div>
+  </div>
+
+  <!-- RADIUS -->
+  <div class="section">
+    <div class="section-title">شعاع گوشه‌ها — Border Radius</div>
+    <div class="radius-row">
+      <div class="radius-box" style="border-radius:8px;">8px<br/>sm</div>
+      <div class="radius-box" style="border-radius:12px;">12px<br/>md</div>
+      <div class="radius-box" style="border-radius:16px;">16px<br/>lg</div>
+      <div class="radius-box" style="border-radius:20px;">20px<br/>xl</div>
+      <div class="radius-box" style="border-radius:9999px;width:auto;padding:0 20px;">9999px — pill</div>
+    </div>
+  </div>
+
+</body>
+</html>
