@@ -244,8 +244,9 @@ async def amline_otp_send(data: OtpSendRequest):
     The OTP will arrive via the Amline SMS channel.
     """
     result = await amline_send_otp(data.mobile)
-    if not result.get("success", True) and "error" in result:
-        raise HTTPException(status_code=502, detail=result["error"])
+    # Default to False so that a missing "success" key with an "error" key still raises
+    if not result.get("success", False) and "error" in result:
+        raise HTTPException(status_code=502, detail="خطا در ارسال OTP به Amline")
     return result
 
 
@@ -259,5 +260,5 @@ async def amline_otp_verify(data: OtpVerifyRequest):
     """
     result = await amline_verify_otp(data.mobile, data.otp)
     if "error" in result:
-        raise HTTPException(status_code=502, detail=result["error"])
+        raise HTTPException(status_code=502, detail="خطا در تأیید OTP با Amline")
     return result
