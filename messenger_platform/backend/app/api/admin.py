@@ -19,6 +19,7 @@ from app.models.database import (
     SendSchedule,
 )
 from app.services.message_sender import send_message
+from app.services.amline_sync import amline_send_otp, amline_verify_otp
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
@@ -223,3 +224,40 @@ async def contact_history(contact_id: int, db: AsyncSession = Depends(get_db)):
         }
         for m in messages
     ]
+
+
+# ── Amline OTP authentication ─────────────────────────────────────────────────
+
+class OtpSendRequest(BaseModel):
+    mobile: str
+
+
+class OtpVerifyRequest(BaseModel):
+    mobile: str
+    otp: str
+
+
+@router.post("/amline/otp/send", tags=["amline-auth"])
+async def amline_otp_send(data: OtpSendRequest):
+    """
+    Proxy: send an OTP request to the Amline backend for the given mobile number.
+    The OTP will arrive via the Amline SMS channel.
+    """
+    result = await amline_send_otp(data.mobile)
+    if not result.get("success", True) and "error" in result:
+        raise HTTPException(status_code=502, detail=result["error"])
+    return result
+
+
+@router.post("/amline/otp/verify", tags=["amline-auth"])
+async def amline_otp_verify(data: OtpVerifyRequest):
+    """
+    Proxy: verify an OTP with Amline and return the admin access token.
+    The caller should store the returned access_token and pass it back as
+    AMLINE_ADMIN_TOKEN in the messenger's .env to enable contact sync and
+    message logging.
+    """
+    result = await amline_verify_otp(data.mobile, data.otp)
+    if "error" in result:
+        raise HTTPException(status_code=502, detail=result["error"])
+    return result

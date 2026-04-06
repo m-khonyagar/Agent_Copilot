@@ -61,4 +61,18 @@ class MessengerRepository {
 
     suspend fun getContactHistory(contactId: Int) =
         runCatching { api.getContactHistory(contactId) }
+
+    // ── Amline integration ─────────────────────────────────────────────────────
+
+    /** Import Amline users as local contacts (one page at a time). */
+    suspend fun syncContactsFromAmline(page: Int = 1, limit: Int = 100) =
+        runCatching { api.syncContactsFromAmline(page, limit) }
+
+    /** Request an OTP to be sent to the given Amline mobile number. */
+    suspend fun amlineSendOtp(mobile: String) =
+        runCatching { api.amlineSendOtp(AmlineOtpRequest(mobile)) }
+
+    /** Verify OTP and obtain Amline admin token. */
+    suspend fun amlineVerifyOtp(mobile: String, otp: String) =
+        runCatching { api.amlineVerifyOtp(AmlineOtpVerifyRequest(mobile, otp)) }
 }

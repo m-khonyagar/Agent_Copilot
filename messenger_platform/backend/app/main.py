@@ -13,6 +13,7 @@ from app.api.contacts import router as contacts_router
 from app.api.messages import router as messages_router
 from app.api.admin import router as admin_router
 from app.services.scheduler import run_pending_sends
+from app.services.amline_sync import sync_contacts_from_amline
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -23,6 +24,13 @@ settings = get_settings()
 async def lifespan(app: FastAPI):
     await init_db()
     logger.info("Database initialised")
+
+    # Optionally pull Amline users into local contacts on startup
+    if settings.amline_sync_on_startup:
+        async with AsyncSessionLocal() as db:
+            synced = await sync_contacts_from_amline(db)
+            logger.info("Startup Amline sync: %d contacts imported", synced)
+
     task = asyncio.create_task(_scheduler_loop())
     yield
     task.cancel()
@@ -44,12 +52,12 @@ async def _scheduler_loop():
 
 
 app = FastAPI(
-    title="Messenger Platform API",
+    title="Amline Messenger API",
     version="1.0.0",
     description=(
-        "Multi-platform messaging management: contacts, account checking, "
-        "single/bulk message sending with rate limiting, read receipts, "
-        "admin inbox and notifications."
+        "پیام‌رسان چند-کاناله املاین — بررسی اکانت مخاطبان، ارسال پیام تکی و انبوه، "
+        "تاریخچه تعاملات و یکپارچه‌سازی با پلتفرم اصلی امَلاین (amline.ir). "
+        "Platforms: Telegram, Eitaa, Bale, WhatsApp, Rubika."
     ),
     lifespan=lifespan,
 )
@@ -69,7 +77,7 @@ app.include_router(admin_router)
 
 @app.get("/")
 async def root():
-    return {"status": "ok", "app": settings.app_name}
+    return {"status": "ok", "app": settings.app_name, "platform": "amline.ir"}
 
 
 @app.get("/health")
