@@ -1,0 +1,10 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Patch: backend/backend/app/core/config.py
+# Add the following fields to the Settings class (inside the class body,
+# after the existing `bootstrap_admin_mobile` field).
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ONLYOFFICE Document Server integration
+onlyoffice_jwt_secret: str = "change-me-onlyoffice-secret"
+onlyoffice_server_url: str = "http://localhost:8180"
+onlyoffice_callback_base_url: str | None = None
