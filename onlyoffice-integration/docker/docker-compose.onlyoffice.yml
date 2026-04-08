@@ -1,0 +1,50 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# docker-compose.onlyoffice.yml
+#
+# Merge this snippet into the main docker-compose.yml in Amline_namAvaran.
+#
+# HOW TO MERGE:
+#   Option A: copy-paste the `onlyoffice` service block and the two volumes
+#             into the existing docker-compose.yml.
+#   Option B: docker compose -f docker-compose.yml -f docker-compose.onlyoffice.yml up
+#
+# ENVIRONMENT VARIABLES to add to your .env file:
+#   ONLYOFFICE_JWT_SECRET=<generate with: openssl rand -hex 32>
+# ─────────────────────────────────────────────────────────────────────────────
+
+version: '3.8'
+
+services:
+  onlyoffice:
+    image: onlyoffice/documentserver:latest
+    container_name: amline-onlyoffice
+    restart: unless-stopped
+    environment:
+      - JWT_ENABLED=true
+      - JWT_SECRET=${ONLYOFFICE_JWT_SECRET:-change-me-onlyoffice-jwt-secret}
+      - JWT_HEADER=Authorization
+      - JWT_PREFIX=Bearer
+      # Allow the backend callback URL
+      - ONLYOFFICE_HTTPS_HSTS_ENABLED=false
+    volumes:
+      - onlyoffice_data:/var/www/onlyoffice/Data
+      - onlyoffice_logs:/var/log/onlyoffice
+      - onlyoffice_cache:/var/lib/onlyoffice
+      - onlyoffice_db:/var/lib/postgresql
+    ports:
+      # Exposed on 8180 to avoid conflict with the existing backend on 8080
+      - "8180:80"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    networks:
+      - amline-network
+
+volumes:
+  onlyoffice_data:
+  onlyoffice_logs:
+  onlyoffice_cache:
+  onlyoffice_db:

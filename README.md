@@ -35,6 +35,37 @@ TaskFlow is a self-hosted AI agent platform that lets you describe a goal in pla
 
 ---
 
+## Windows Quick Start
+
+The fastest way to run TaskFlow on Windows is the included PowerShell script:
+
+```powershell
+# 1. Clone the repository
+git clone https://github.com/m-khonyagar/Agent_Copilot.git
+cd Agent_Copilot
+
+# 2. Launch everything with one command
+powershell -ExecutionPolicy Bypass -File taskflow\run.ps1
+```
+
+The script will:
+- Verify that Docker Desktop is installed and running
+- Copy `taskflow\.env.example` → `taskflow\.env` automatically if `.env` is missing (the script will pause so you can add your API keys before starting services)
+- Run `docker compose up --build` inside the `taskflow` folder
+
+Once all services are up, open your browser:
+
+| Service | URL |
+|---|---|
+| Frontend UI | http://localhost:3000 |
+| Backend API docs | http://localhost:8000/docs |
+| Temporal UI | http://localhost:8080 |
+| Langfuse observability | http://localhost:3001 |
+
+> **Tip:** You can also right-click `taskflow\run.ps1` in Windows Explorer and choose **"Run with PowerShell"**.
+
+---
+
 ## Quick Start
 
 ### Prerequisites
