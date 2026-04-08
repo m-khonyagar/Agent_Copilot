@@ -20,6 +20,7 @@ from app.models.database import (
 )
 from app.services.message_sender import send_message
 from app.services.scheduler import create_campaign_schedule
+from app.services.amline_sync import log_message_to_amline, extract_amline_user_id
 
 router = APIRouter(prefix="/messages", tags=["messages"])
 
@@ -168,6 +169,11 @@ async def send_single(data: SendSingleRequest, db: AsyncSession = Depends(get_db
     await db.commit()
     await db.refresh(msg)
 
+    # Log message to Amline CRM (best-effort; never blocks the response)
+    amline_uid = extract_amline_user_id(contact.notes)
+    if amline_uid and result.success:
+        await log_message_to_amline(amline_uid, "outbound", data.platform, data.content)
+
     await manager.broadcast({"event": "message_sent", "message_id": msg.id, "status": msg.status})
     return await _enrich_message(msg, db)
 
@@ -271,6 +277,11 @@ async def receive_inbound(
     db.add(notif)
     await db.commit()
     await db.refresh(msg)
+
+    # Log inbound reply to Amline CRM (best-effort)
+    amline_uid = extract_amline_user_id(contact.notes)
+    if amline_uid:
+        await log_message_to_amline(amline_uid, "inbound", platform, content)
 
     await manager.broadcast({"event": "inbound_message", "message_id": msg.id, "contact_id": contact_id})
     return await _enrich_message(msg, db)

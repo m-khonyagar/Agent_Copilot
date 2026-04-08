@@ -11,6 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
 from app.models.database import Contact, Platform, PlatformAccount
 from app.services.platform_checker import check_all_platforms, check_platform
+from app.services.amline_sync import sync_contacts_from_amline
 
 router = APIRouter(prefix="/contacts", tags=["contacts"])
 
@@ -190,4 +191,22 @@ async def check_single_platform(contact_id: int, platform: str, db: AsyncSession
         username=pa.username,
         last_online=pa.last_online,
         last_checked=pa.last_checked,
+    )
+
+
+class AmlineSyncResult(BaseModel):
+    synced: int
+    message: str
+
+
+@router.post("/sync-from-amline", response_model=AmlineSyncResult, status_code=status.HTTP_200_OK)
+async def sync_from_amline(page: int = 1, limit: int = 100, db: AsyncSession = Depends(get_db)):
+    """
+    Pull users from the Amline backend and upsert them as local Contacts.
+    Requires AMLINE_ADMIN_TOKEN to be configured.
+    """
+    synced = await sync_contacts_from_amline(db, page=page, limit=limit)
+    return AmlineSyncResult(
+        synced=synced,
+        message=f"Imported/updated {synced} contacts from Amline (page {page})",
     )

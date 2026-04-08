@@ -3,12 +3,20 @@ from functools import lru_cache
 
 
 class Settings(BaseSettings):
-    app_name: str = "Messenger Platform"
+    app_name: str = "Amline Messenger"
     debug: bool = False
     database_url: str = "sqlite+aiosqlite:///./messenger.db"
     secret_key: str = "change-me-in-production"
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 60 * 24
+
+    # ── Amline API integration ─────────────────────────────────────────────────
+    # Base URL of the Amline backend (e.g. https://api.amline.ir or local)
+    amline_base_url: str = "https://api.amline.ir"
+    # Admin bearer token obtained after OTP login to Amline
+    amline_admin_token: str = ""
+    # Whether to auto-sync Amline users as messenger contacts on startup
+    amline_sync_on_startup: bool = False
 
     # Telegram Bot
     telegram_bot_token: str = ""
@@ -35,7 +43,7 @@ class Settings(BaseSettings):
     rubika_daily_limit: int = 100
     whatsapp_daily_limit: int = 50
 
-    # Admin credentials
+    # Admin credentials (for the local messenger admin panel)
     admin_username: str = "admin"
     admin_password: str = "admin123"
 

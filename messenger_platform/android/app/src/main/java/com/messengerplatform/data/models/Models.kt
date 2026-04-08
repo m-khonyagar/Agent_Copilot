@@ -110,3 +110,32 @@ data class AdminReplyRequest(
     @SerializedName("message_id") val messageId: Int,
     val content: String
 )
+
+// ── Amline integration ────────────────────────────────────────────────────────
+
+data class AmlineSyncResult(
+    val synced: Int,
+    val message: String
+)
+
+data class AmlineOtpRequest(
+    val mobile: String
+)
+
+data class AmlineOtpVerifyRequest(
+    val mobile: String,
+    val otp: String
+)
+
+data class AmlineAuthResponse(
+    @SerializedName("access_token") val accessToken: String?,
+    @SerializedName("refresh_token") val refreshToken: String?,
+    val user: AmlineUser?
+)
+
+data class AmlineUser(
+    val id: String,
+    val mobile: String,
+    @SerializedName("full_name") val fullName: String?,
+    val role: String?
+)

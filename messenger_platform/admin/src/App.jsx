@@ -33,7 +33,7 @@ export default function App() {
       <div className="flex min-h-screen" dir="rtl">
         {/* Sidebar */}
         <aside className="w-64 bg-blue-900 text-white flex flex-col py-6 px-4 gap-2 shrink-0">
-          <h1 className="text-xl font-bold mb-6 px-2">📱 Messenger Platform</h1>
+          <h1 className="text-xl font-bold mb-6 px-2">🏠 Amline Messenger</h1>
           {navItems.map(({ to, label, Icon }) => (
             <NavLink
               key={to}
