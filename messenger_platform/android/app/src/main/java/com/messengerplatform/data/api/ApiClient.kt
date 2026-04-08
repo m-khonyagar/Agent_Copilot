@@ -31,6 +31,13 @@ interface MessengerApiService {
         @Path("platform") platform: String
     ): PlatformAccount
 
+    /** Pull users from Amline backend and upsert them as local contacts. */
+    @POST("contacts/sync-from-amline")
+    suspend fun syncContactsFromAmline(
+        @Query("page") page: Int = 1,
+        @Query("limit") limit: Int = 100
+    ): AmlineSyncResult
+
     // ── Messages ──────────────────────────────────────────────────────────────
 
     @GET("messages")
@@ -84,6 +91,16 @@ interface MessengerApiService {
 
     @GET("admin/history/{contactId}")
     suspend fun getContactHistory(@Path("contactId") contactId: Int): List<Map<String, Any>>
+
+    // ── Amline authentication ─────────────────────────────────────────────────
+
+    /** Request an OTP from Amline (sent via SMS to the mobile number). */
+    @POST("admin/amline/otp/send")
+    suspend fun amlineSendOtp(@Body data: AmlineOtpRequest): Map<String, Any>
+
+    /** Verify OTP and obtain Amline access token. */
+    @POST("admin/amline/otp/verify")
+    suspend fun amlineVerifyOtp(@Body data: AmlineOtpVerifyRequest): AmlineAuthResponse
 }
 
 object ApiClient {

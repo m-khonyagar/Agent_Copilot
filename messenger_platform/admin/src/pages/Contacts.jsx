@@ -4,6 +4,7 @@ import {
   createContact,
   deleteContact,
   checkAllPlatforms,
+  syncContactsFromAmline,
 } from "../api/client";
 
 const PLATFORMS = ["telegram", "whatsapp", "eitaa", "bale", "rubika"];
@@ -19,11 +20,25 @@ export default function Contacts() {
   const [form, setForm] = useState({ name: "", phone: "", notes: "" });
   const [loading, setLoading] = useState(false);
   const [checkingId, setCheckingId] = useState(null);
+  const [syncing, setSyncing] = useState(false);
 
   const load = () =>
     getContacts().then((r) => setContacts(r.data)).catch(console.error);
 
   useEffect(() => { load(); }, []);
+
+  const handleAmlineSync = async () => {
+    setSyncing(true);
+    try {
+      const r = await syncContactsFromAmline();
+      alert(r.data.message || `${r.data.synced} مخاطب از Amline وارد شد`);
+      await load();
+    } catch (err) {
+      alert(err?.response?.data?.detail || "خطا در همگام‌سازی با Amline");
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -57,7 +72,16 @@ export default function Contacts() {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">مخاطبین</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-2xl font-bold">مخاطبین</h2>
+        <button
+          onClick={handleAmlineSync}
+          disabled={syncing}
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm disabled:opacity-50"
+        >
+          {syncing ? "در حال همگام‌سازی…" : "🔄 همگام‌سازی با Amline"}
+        </button>
+      </div>
 
       {/* Add form */}
       <form onSubmit={handleAdd} className="bg-white rounded-xl shadow p-4 mb-6 flex flex-wrap gap-3">

@@ -13,6 +13,10 @@ export const deleteContact = (id) => api.delete(`/contacts/${id}`);
 export const checkAllPlatforms = (id) => api.post(`/contacts/${id}/check-platforms`);
 export const checkPlatform = (id, platform) => api.post(`/contacts/${id}/check-platform/${platform}`);
 
+// Sync Amline users → local contacts
+export const syncContactsFromAmline = (page = 1, limit = 100) =>
+  api.post("/contacts/sync-from-amline", null, { params: { page, limit } });
+
 // ── Messages ──────────────────────────────────────────────────────────────────
 export const getMessages = (params) => api.get("/messages", { params });
 export const sendSingle = (data) => api.post("/messages/send", data);
@@ -32,3 +36,9 @@ export const markAllNotificationsRead = () => api.post("/admin/notifications/rea
 export const getInbox = () => api.get("/admin/inbox");
 export const adminReply = (data) => api.post("/admin/reply", data);
 export const getContactHistory = (id) => api.get(`/admin/history/${id}`);
+
+// ── Amline authentication ─────────────────────────────────────────────────────
+// Step 1: request OTP (sent via Amline SMS channel to the mobile number)
+export const amlineSendOtp = (mobile) => api.post("/admin/amline/otp/send", { mobile });
+// Step 2: verify OTP — returns { access_token, user, ... }
+export const amlineVerifyOtp = (mobile, otp) => api.post("/admin/amline/otp/verify", { mobile, otp });

@@ -3,6 +3,7 @@ version: "3.9"
 services:
   backend:
     build: ./backend
+    container_name: amline-messenger-backend
     ports:
       - "8000:8000"
     volumes:
@@ -10,11 +11,17 @@ services:
       - messenger_data:/app/data
     environment:
       - DATABASE_URL=sqlite+aiosqlite:////app/data/messenger.db
+      # Amline API integration
+      - AMLINE_BASE_URL=${AMLINE_BASE_URL:-https://api.amline.ir}
+      - AMLINE_ADMIN_TOKEN=${AMLINE_ADMIN_TOKEN:-}
+      - AMLINE_SYNC_ON_STARTUP=${AMLINE_SYNC_ON_STARTUP:-false}
+      # Messaging platforms
       - TELEGRAM_API_ID=${TELEGRAM_API_ID:-0}
       - TELEGRAM_API_HASH=${TELEGRAM_API_HASH:-}
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
       - EITAA_TOKEN=${EITAA_TOKEN:-}
       - BALE_TOKEN=${BALE_TOKEN:-}
+      # Security
       - SECRET_KEY=${SECRET_KEY:-change-me-in-production}
       - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
@@ -27,6 +34,7 @@ services:
 
   admin:
     build: ./admin
+    container_name: amline-messenger-admin
     ports:
       - "3001:3001"
     depends_on:
