@@ -1,0 +1,15 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Patch: backend/backend/requirements.txt
+# Add the following line (httpx is already present; jose is already present).
+# ─────────────────────────────────────────────────────────────────────────────
+#
+# No new pip packages are required!
+# The integration uses:
+#   - python-jose[cryptography]  ← already in requirements.txt
+#   - httpx                      ← already in requirements.txt
+#   - boto3                      ← already in requirements.txt (for S3)
+#
+# If you see an import error for `jose`, make sure python-jose[cryptography]
+# is installed:
+#   pip install "python-jose[cryptography]"
+# ─────────────────────────────────────────────────────────────────────────────

@@ -1,0 +1,21 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Patch: admin-ui/src/App.tsx
+# ─────────────────────────────────────────────────────────────────────────────
+#
+# 1. Add import at the top of the file (with the other page imports):
+#
+#     const OfficePage = lazy(() => import('./pages/office/OfficePage'))
+#
+# 2. Add the following route inside the protected <Route path="/"> block,
+#    after the CRM routes (before the catch-all <Route path="*">):
+#
+#     <Route
+#       path="office"
+#       element={
+#         <RouteSuspense>
+#           <OfficePage />
+#         </RouteSuspense>
+#       }
+#     />
+#
+# ─────────────────────────────────────────────────────────────────────────────

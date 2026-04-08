@@ -1,0 +1,21 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Patch: backend/backend/app/api/router.py
+# ─────────────────────────────────────────────────────────────────────────────
+#
+# 1. Add to the import block at the top (alongside the other routes):
+#
+#     from app.api.routes import onlyoffice_docs
+#
+# 2. Add the following line after the existing route registrations
+#    (e.g., after the `admin_contracts` router):
+#
+#     api_router.include_router(
+#         onlyoffice_docs.router,
+#         prefix="/onlyoffice-docs",
+#         tags=["onlyoffice"],
+#     )
+#
+# Note: The callback endpoint POST /onlyoffice-docs/{doc_id}/callback must be
+# reachable by the ONLYOFFICE Document Server container. If the backend is
+# behind a firewall, set AMLINE_ONLYOFFICE_CALLBACK_BASE_URL to the public URL.
+# ─────────────────────────────────────────────────────────────────────────────
